@@ -48,7 +48,7 @@ const Index = () => {
 
       {/* Gallery Section */}
       <section className="container mx-auto px-4 py-24">
-        <h2 className="text-6xl md:text-8xl font-bold mb-16 text-center tracking-tighter">
+        <h2 className="text-6xl md:text-8xl font-bold mb-16 text-center tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
           PORTFOLIO
         </h2>
         
