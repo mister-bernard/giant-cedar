@@ -23,9 +23,11 @@ const Index = () => {
 
         <div className="relative z-10 text-center px-4 animate-fade-in">
           <div className="flex items-center justify-center mb-6">
-            <img src={logoImage} alt="Giant Cedar" className="h-32 w-32 md:h-40 md:w-40 object-contain drop-shadow-2xl" />
+            
           </div>
-          <h1 className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
+          <h1 className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter" style={{
+          fontFamily: 'Georgia, serif'
+        }}>
             GIANT CEDAR
           </h1>
           <p className="text-2xl md:text-3xl font-light tracking-wider text-white/90 mb-12">
@@ -48,7 +50,9 @@ const Index = () => {
 
       {/* Gallery Section */}
       <section className="container mx-auto px-4 py-24">
-        <h2 className="text-6xl md:text-8xl font-bold mb-16 text-center tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
+        <h2 className="text-6xl md:text-8xl font-bold mb-16 text-center tracking-tighter" style={{
+        fontFamily: 'Georgia, serif'
+      }}>
           PORTFOLIO
         </h2>
         
@@ -88,7 +92,9 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-3 mb-2">
             <img src={logoImage} alt="Giant Cedar" className="h-10 w-10 object-contain" />
-            <p className="text-2xl font-bold tracking-wider" style={{ fontFamily: 'Georgia, serif' }}>GIANT CEDAR</p>
+            <p className="text-2xl font-bold tracking-wider" style={{
+            fontFamily: 'Georgia, serif'
+          }}>GIANT CEDAR</p>
           </div>
           <p className="text-muted-foreground">Capturing perspective from above • Idaho & Western US</p>
         </div>
