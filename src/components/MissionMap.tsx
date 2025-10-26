@@ -30,8 +30,8 @@ export const MissionMap = ({ onAreaSelect }: MissionMapProps) => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/satellite-streets-v12",
-      center: [-114.742, 44.068], // Idaho center
-      zoom: 6,
+      center: [-116.5668, 47.6777], // Northern Idaho (Coeur d'Alene area)
+      zoom: 7,
     });
 
     // Initialize drawing control
@@ -166,8 +166,11 @@ export const MissionMap = ({ onAreaSelect }: MissionMapProps) => {
       </div>
       <div ref={mapContainer} className="absolute inset-0" />
       {isDrawing && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-background/95 backdrop-blur px-6 py-3 rounded-lg border border-border">
-          <p className="text-sm font-medium">Click on the map to draw your area of interest</p>
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-background/95 backdrop-blur px-8 py-4 rounded-lg border-2 border-primary shadow-xl max-w-md">
+          <p className="text-base font-semibold mb-2 text-center">📍 Draw Your Mission Area</p>
+          <p className="text-sm text-muted-foreground text-center">
+            Click points on the map to outline your area, then double-click to finish
+          </p>
         </div>
       )}
     </div>

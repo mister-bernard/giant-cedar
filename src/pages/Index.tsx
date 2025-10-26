@@ -4,6 +4,7 @@ import { AboutDialog } from "@/components/AboutDialog";
 import { ContactDialog } from "@/components/ContactDialog";
 import { MissionDialog } from "@/components/MissionDialog";
 import heroImage from "@/assets/hero-aerial.jpg";
+import logoImage from "@/assets/giant-cedar-logo.png";
 import aerial1 from "@/assets/aerial-1.jpg";
 import aerial2 from "@/assets/aerial-2.jpg";
 import aerial3 from "@/assets/aerial-3.jpg";
@@ -21,7 +22,10 @@ const Index = () => {
         </div>
 
         <div className="relative z-10 text-center px-4 animate-fade-in">
-          <h1 className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter">
+          <div className="flex items-center justify-center mb-6">
+            <img src={logoImage} alt="Giant Cedar" className="h-32 w-32 md:h-40 md:w-40 object-contain drop-shadow-2xl" />
+          </div>
+          <h1 className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
             GIANT CEDAR
           </h1>
           <p className="text-2xl md:text-3xl font-light tracking-wider text-white/90 mb-12">
@@ -82,7 +86,10 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border py-12">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-2xl font-bold tracking-wider mb-2">GIANT CEDAR</p>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <img src={logoImage} alt="Giant Cedar" className="h-10 w-10 object-contain" />
+            <p className="text-2xl font-bold tracking-wider" style={{ fontFamily: 'Georgia, serif' }}>GIANT CEDAR</p>
+          </div>
           <p className="text-muted-foreground">Capturing perspective from above • Idaho & Western US</p>
         </div>
       </footer>

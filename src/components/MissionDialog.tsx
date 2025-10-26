@@ -21,7 +21,7 @@ export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
     description: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!selectedArea) {
@@ -29,18 +29,53 @@ export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
       return;
     }
 
-    // Here you would typically send this to a backend
-    console.log("Mission Request:", {
-      ...formData,
-      selectedArea,
-    });
+    // Create Mapbox Static API URL with polygon overlay
+    const coordinates = selectedArea[0].map(coord => `${coord[0]},${coord[1]}`).join(',');
+    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/path-2+f44336-0.8(${coordinates})/${selectedArea[0][0][0]},${selectedArea[0][0][1]},10,0/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
 
-    toast.success("Mission request submitted! We'll contact you soon.");
-    
-    // Reset form
-    setFormData({ name: "", email: "", phone: "", description: "" });
-    setSelectedArea(null);
-    onOpenChange(false);
+    const message = `🚁 New Mission Request - Giant Cedar
+
+📋 Contact Details:
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+📝 Description:
+${formData.description}
+
+📍 Mission Area Coordinates:
+${JSON.stringify(selectedArea, null, 2)}
+
+🗺️ View on Map:
+${mapboxStaticUrl}`;
+
+    try {
+      // Send to Telegram
+      const response = await fetch(`https://api.telegram.org/bot8328499499:AAHFx5uL6rpX8foimTO54-IuRpz0Yx8Ur3w/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: '39172309',
+          text: message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      toast.success("Mission request submitted! We'll contact you soon.");
+      
+      // Reset form
+      setFormData({ name: "", email: "", phone: "", description: "" });
+      setSelectedArea(null);
+      onOpenChange(false);
+    } catch (error) {
+      console.error('Error sending mission request:', error);
+      toast.error("Failed to submit request. Please try again.");
+    }
   };
 
   return (
