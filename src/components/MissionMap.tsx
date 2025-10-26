@@ -4,19 +4,20 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { MapPin, Crosshair } from "lucide-react";
+import { Crosshair } from "lucide-react";
+
+const MAPBOX_TOKEN = "pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ";
 
 export const MissionMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [apiKey, setApiKey] = useState("");
   const [address, setAddress] = useState("");
   const [marker, setMarker] = useState<mapboxgl.Marker | null>(null);
 
   useEffect(() => {
-    if (!mapContainer.current || !apiKey) return;
+    if (!mapContainer.current) return;
 
-    mapboxgl.accessToken = apiKey;
+    mapboxgl.accessToken = MAPBOX_TOKEN;
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -43,16 +44,16 @@ export const MissionMap = () => {
     return () => {
       map.current?.remove();
     };
-  }, [apiKey]);
+  }, []);
 
   const handleGeocode = async () => {
-    if (!address || !map.current || !apiKey) return;
+    if (!address || !map.current) return;
 
     try {
       const response = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
           address
-        )}.json?access_token=${apiKey}`
+        )}.json?access_token=${MAPBOX_TOKEN}`
       );
       const data = await response.json();
 
@@ -75,40 +76,6 @@ export const MissionMap = () => {
       toast.error("Failed to geocode address");
     }
   };
-
-  if (!apiKey) {
-    return (
-      <div className="flex items-center justify-center h-full p-8">
-        <div className="max-w-md w-full space-y-4">
-          <div className="text-center space-y-2">
-            <MapPin className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-2xl font-bold">Mapbox API Key Required</h3>
-            <p className="text-muted-foreground">
-              Enter your Mapbox public token to use the interactive map
-            </p>
-          </div>
-          <Input
-            type="text"
-            placeholder="pk.eyJ1IjoieW91ci1hY2NvdW50..."
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            className="bg-muted/50 border-border h-12 text-base font-mono"
-          />
-          <p className="text-sm text-muted-foreground text-center">
-            Get your free token at{" "}
-            <a
-              href="https://mapbox.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-foreground"
-            >
-              mapbox.com
-            </a>
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="relative w-full h-full">
