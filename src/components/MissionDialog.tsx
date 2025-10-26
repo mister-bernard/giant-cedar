@@ -39,10 +39,10 @@ export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
       }
       return selectedArea;
     })();
-    const coordinatesPath = closedCoords.map(coord => `${coord[0]},${coord[1]}`).join(';');
-    // Use auto fit so the static image frames the polygon perfectly
-    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/path-3+ff0000-1+ff0000-0.4(${coordinatesPath})/auto/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
-    const interactiveUrl = `${window.location.origin}/share-mission?coords=${encodeURIComponent(coordinatesPath)}`;
+    const coordinatesPath = closedCoords.map(coord => `${coord[0]},${coord[1]}`).join(',');
+    // Use geojson overlay for better polygon rendering
+    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/geojson(%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22stroke%22%3A%22%23ff0000%22%2C%22stroke-width%22%3A3%2C%22fill%22%3A%22%23ff0000%22%2C%22fill-opacity%22%3A0.3%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Polygon%22%2C%22coordinates%22%3A%5B%5B${closedCoords.map(c => `%5B${c[0]}%2C${c[1]}%5D`).join('%2C')}%5D%5D%7D%7D)/auto/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
+    const interactiveUrl = `${window.location.origin}/share-mission?coords=${encodeURIComponent(closedCoords.map(coord => `${coord[0]},${coord[1]}`).join(';'))}`;
 
     const message = `🚁 New Mission Request - Giant Cedar
 
