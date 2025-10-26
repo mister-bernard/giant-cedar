@@ -6,7 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Crosshair, Square } from "lucide-react";
+import { Crosshair } from "lucide-react";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ";
 
@@ -21,6 +21,7 @@ export const MissionMap = ({ onAreaSelect }: MissionMapProps) => {
   const [address, setAddress] = useState("");
   const [marker, setMarker] = useState<mapboxgl.Marker | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [showInitialPopup, setShowInitialPopup] = useState(true);
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -51,19 +52,9 @@ export const MissionMap = ({ onAreaSelect }: MissionMapProps) => {
     map.current.on("draw.delete", deleteArea);
     map.current.on("draw.update", updateArea);
 
-    map.current.on("click", (e) => {
-      if (!isDrawing && marker) {
-        marker.remove();
-      }
-
-      if (!isDrawing) {
-        const newMarker = new mapboxgl.Marker({ color: "#000000" })
-          .setLngLat(e.lngLat)
-          .addTo(map.current!);
-
-        setMarker(newMarker);
-        toast(`Location selected: ${e.lngLat.lat.toFixed(4)}, ${e.lngLat.lng.toFixed(4)}`);
-      }
+    // Dismiss initial popup on first interaction
+    map.current.on("movestart", () => {
+      setShowInitialPopup(false);
     });
 
     return () => {
@@ -151,12 +142,16 @@ export const MissionMap = ({ onAreaSelect }: MissionMapProps) => {
           <Crosshair className="w-5 h-5" />
         </Button>
         <Button
-          onClick={() => setIsDrawing(!isDrawing)}
+          onClick={() => {
+            setIsDrawing(!isDrawing);
+            setShowInitialPopup(false);
+          }}
           size="lg"
           variant={isDrawing ? "default" : "outline"}
           className="h-12"
+          title="Draw Mission Area"
         >
-          <Square className="w-5 h-5" />
+          <span className="text-xl">📍</span>
         </Button>
         {draw.current?.getAll().features.length > 0 && (
           <Button onClick={handleClearArea} size="lg" variant="outline" className="h-12">
@@ -165,11 +160,21 @@ export const MissionMap = ({ onAreaSelect }: MissionMapProps) => {
         )}
       </div>
       <div ref={mapContainer} className="absolute inset-0" />
+      
+      {showInitialPopup && !isDrawing && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 bg-background/95 backdrop-blur px-8 py-6 rounded-lg border-2 border-primary shadow-xl max-w-lg animate-fade-in">
+          <p className="text-xl font-semibold mb-3 text-center">📍 Draw Your Mission Area</p>
+          <p className="text-sm text-muted-foreground text-center leading-relaxed">
+            Navigate to your target location, then click the <span className="font-semibold">📍 button</span> above to begin drawing your mission boundaries
+          </p>
+        </div>
+      )}
+      
       {isDrawing && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-background/95 backdrop-blur px-8 py-4 rounded-lg border-2 border-primary shadow-xl max-w-md">
-          <p className="text-base font-semibold mb-2 text-center">📍 Draw Your Mission Area</p>
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 bg-background/95 backdrop-blur px-8 py-4 rounded-lg border-2 border-primary shadow-xl max-w-md">
+          <p className="text-base font-semibold mb-2 text-center">Drawing Mission Area</p>
           <p className="text-sm text-muted-foreground text-center">
-            Click points on the map to outline your area, then double-click to finish
+            Click points on the map to outline your area, then double-click to complete
           </p>
         </div>
       )}
