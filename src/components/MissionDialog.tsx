@@ -33,7 +33,8 @@ export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
     // selectedArea is an array of [lng, lat] pairs
     const coordinates = selectedArea.map(coord => `${coord[0]},${coord[1]}`).join(',');
     const center = selectedArea[0]; // Use first coordinate as center
-    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/path-2+f44336-0.8(${coordinates})/${center[0]},${center[1]},13,0/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
+    // path format: strokeWidth+strokeColor-strokeOpacity+fillColor-fillOpacity
+    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/path-3+ff0000-1+ff0000-0.4(${coordinates})/${center[0]},${center[1]},13,0/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
 
     const message = `🚁 New Mission Request - Giant Cedar
 
