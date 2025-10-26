@@ -14,7 +14,7 @@ export const AboutDialog = ({ open, onOpenChange }: AboutDialogProps) => {
         </DialogHeader>
         <div className="space-y-6 text-lg leading-relaxed">
           <p className="text-foreground/80">
-            We are APEX — a collective of aerial photographers and drone pilots pushing the boundaries 
+            We are Giant Cedar — a premier aerial photography and drone operation pushing the boundaries 
             of perspective. From the highest peaks to the deepest valleys, we capture the world from 
             angles previously impossible.
           </p>
@@ -24,8 +24,9 @@ export const AboutDialog = ({ open, onOpenChange }: AboutDialogProps) => {
             discover something new.
           </p>
           <p className="text-foreground/80">
-            Based in the heart of the Alps, we specialize in high-altitude aerial photography, 
-            expedition documentation, and custom drone cinematography for brands that demand excellence.
+            Based in Idaho, we specialize in high-altitude aerial photography, expedition documentation, 
+            and custom drone cinematography serving clients across the Western 12 states: Idaho, Montana, 
+            Wyoming, Washington, Oregon, California, Nevada, Utah, Colorado, Arizona, New Mexico, and Alaska.
           </p>
         </div>
       </DialogContent>

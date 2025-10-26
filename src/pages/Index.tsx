@@ -28,11 +28,14 @@ const Index = () => {
         </div>
 
         <div className="relative z-10 text-center px-4 animate-fade-in">
-          <h1 className="text-[8rem] md:text-[12rem] font-bold leading-none mb-6 tracking-tighter">
-            APEX
+          <h1 className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter">
+            GIANT CEDAR
           </h1>
           <p className="text-2xl md:text-3xl font-light tracking-wider text-white/90 mb-12">
             AERIAL PHOTOGRAPHY & MISSION PLANNING
+          </p>
+          <p className="text-lg md:text-xl font-light tracking-wide text-white/80 mb-12">
+            Based in Idaho • Serving the Western 12 States
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button
@@ -110,8 +113,8 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border py-12">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-2xl font-bold tracking-wider mb-2">APEX</p>
-          <p className="text-muted-foreground">Capturing perspective from above</p>
+          <p className="text-2xl font-bold tracking-wider mb-2">GIANT CEDAR</p>
+          <p className="text-muted-foreground">Capturing perspective from above • Idaho & Western US</p>
         </div>
       </footer>
 

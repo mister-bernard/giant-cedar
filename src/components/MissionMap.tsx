@@ -1,18 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
+import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Crosshair } from "lucide-react";
+import { Crosshair, Square } from "lucide-react";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ";
 
-export const MissionMap = () => {
+interface MissionMapProps {
+  onAreaSelect: (bounds: number[][] | null) => void;
+}
+
+export const MissionMap = ({ onAreaSelect }: MissionMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const draw = useRef<MapboxDraw | null>(null);
   const [address, setAddress] = useState("");
   const [marker, setMarker] = useState<mapboxgl.Marker | null>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -21,30 +29,75 @@ export const MissionMap = () => {
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v11",
-      center: [8.2275, 46.8182], // Swiss Alps
-      zoom: 8,
+      style: "mapbox://styles/mapbox/satellite-streets-v12",
+      center: [-114.742, 44.068], // Idaho center
+      zoom: 6,
     });
 
+    // Initialize drawing control
+    draw.current = new MapboxDraw({
+      displayControlsDefault: false,
+      controls: {},
+      modes: {
+        ...MapboxDraw.modes,
+      },
+    });
+
+    map.current.addControl(draw.current);
     map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
+    // Listen for drawing events
+    map.current.on("draw.create", updateArea);
+    map.current.on("draw.delete", deleteArea);
+    map.current.on("draw.update", updateArea);
+
     map.current.on("click", (e) => {
-      if (marker) {
+      if (!isDrawing && marker) {
         marker.remove();
       }
 
-      const newMarker = new mapboxgl.Marker({ color: "#000000" })
-        .setLngLat(e.lngLat)
-        .addTo(map.current!);
+      if (!isDrawing) {
+        const newMarker = new mapboxgl.Marker({ color: "#000000" })
+          .setLngLat(e.lngLat)
+          .addTo(map.current!);
 
-      setMarker(newMarker);
-      toast(`Location selected: ${e.lngLat.lat.toFixed(4)}, ${e.lngLat.lng.toFixed(4)}`);
+        setMarker(newMarker);
+        toast(`Location selected: ${e.lngLat.lat.toFixed(4)}, ${e.lngLat.lng.toFixed(4)}`);
+      }
     });
 
     return () => {
       map.current?.remove();
     };
   }, []);
+
+  useEffect(() => {
+    // Update drawing mode
+    if (draw.current && map.current) {
+      if (isDrawing) {
+        draw.current.changeMode("draw_polygon");
+      } else {
+        draw.current.changeMode("simple_select");
+      }
+    }
+  }, [isDrawing]);
+
+  function updateArea() {
+    const data = draw.current?.getAll();
+    if (data && data.features.length > 0) {
+      const feature = data.features[0];
+      if (feature.geometry.type === "Polygon") {
+        const coordinates = feature.geometry.coordinates[0];
+        onAreaSelect(coordinates);
+        toast("Area selected successfully");
+      }
+    }
+  }
+
+  function deleteArea() {
+    onAreaSelect(null);
+    toast("Area cleared");
+  }
 
   const handleGeocode = async () => {
     if (!address || !map.current) return;
@@ -77,6 +130,12 @@ export const MissionMap = () => {
     }
   };
 
+  const handleClearArea = () => {
+    draw.current?.deleteAll();
+    deleteArea();
+    setIsDrawing(false);
+  };
+
   return (
     <div className="relative w-full h-full">
       <div className="absolute top-4 left-4 right-4 z-10 flex gap-2">
@@ -91,8 +150,26 @@ export const MissionMap = () => {
         <Button onClick={handleGeocode} size="lg" className="h-12">
           <Crosshair className="w-5 h-5" />
         </Button>
+        <Button
+          onClick={() => setIsDrawing(!isDrawing)}
+          size="lg"
+          variant={isDrawing ? "default" : "outline"}
+          className="h-12"
+        >
+          <Square className="w-5 h-5" />
+        </Button>
+        {draw.current?.getAll().features.length > 0 && (
+          <Button onClick={handleClearArea} size="lg" variant="outline" className="h-12">
+            Clear Area
+          </Button>
+        )}
       </div>
       <div ref={mapContainer} className="absolute inset-0" />
+      {isDrawing && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-background/95 backdrop-blur px-6 py-3 rounded-lg border border-border">
+          <p className="text-sm font-medium">Click on the map to draw your area of interest</p>
+        </div>
+      )}
     </div>
   );
 };
