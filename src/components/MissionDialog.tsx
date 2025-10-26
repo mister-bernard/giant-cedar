@@ -30,8 +30,10 @@ export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
     }
 
     // Create Mapbox Static API URL with polygon overlay
-    const coordinates = selectedArea[0].map(coord => `${coord[0]},${coord[1]}`).join(',');
-    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/path-2+f44336-0.8(${coordinates})/${selectedArea[0][0][0]},${selectedArea[0][0][1]},10,0/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
+    // selectedArea is an array of [lng, lat] pairs
+    const coordinates = selectedArea.map(coord => `${coord[0]},${coord[1]}`).join(',');
+    const center = selectedArea[0]; // Use first coordinate as center
+    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/path-2+f44336-0.8(${coordinates})/${center[0]},${center[1]},13,0/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
 
     const message = `🚁 New Mission Request - Giant Cedar
 
@@ -63,7 +65,9 @@ ${mapboxStaticUrl}`;
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        const errorData = await response.json();
+        console.error('Telegram API error:', errorData);
+        throw new Error(errorData.description || 'Failed to send message');
       }
 
       toast.success("Mission request submitted! We'll contact you soon.");
