@@ -30,11 +30,19 @@ export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
     }
 
     // Create Mapbox Static API URL with polygon overlay
-    // selectedArea is an array of [lng, lat] pairs
-    const coordinates = selectedArea.map(coord => `${coord[0]},${coord[1]}`).join(',');
-    const center = selectedArea[0]; // Use first coordinate as center
-    // path format: strokeWidth+strokeColor-strokeOpacity+fillColor-fillOpacity
-    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/path-3+ff0000-1+ff0000-0.4(${coordinates})/${center[0]},${center[1]},13,0/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
+    // Ensure polygon is closed and coordinates are semicolon-separated
+    const closedCoords = (() => {
+      const first = selectedArea[0];
+      const last = selectedArea[selectedArea.length - 1];
+      if (first[0] !== last[0] || first[1] !== last[1]) {
+        return [...selectedArea, first];
+      }
+      return selectedArea;
+    })();
+    const coordinatesPath = closedCoords.map(coord => `${coord[0]},${coord[1]}`).join(';');
+    // Use auto fit so the static image frames the polygon perfectly
+    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/path-3+ff0000-1+ff0000-0.4(${coordinatesPath})/auto/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
+    const interactiveUrl = `${window.location.origin}/share-mission?coords=${encodeURIComponent(coordinatesPath)}`;
 
     const message = `🚁 New Mission Request - Giant Cedar
 
@@ -49,8 +57,11 @@ ${formData.description}
 📍 Mission Area Coordinates:
 ${JSON.stringify(selectedArea, null, 2)}
 
-🗺️ View on Map:
-${mapboxStaticUrl}`;
+🗺️ Static Map (area highlighted):
+${mapboxStaticUrl}
+
+🔗 Interactive Map:
+${interactiveUrl}`;
 
     try {
       // Send to Telegram
