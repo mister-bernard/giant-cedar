@@ -20,10 +20,13 @@ const Index = () => {
   const [contactOpen, setContactOpen] = useState(false);
   const [missionOpen, setMissionOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoMuted, setIsVideoMuted] = useState(true);
 
-  const handleVideoHover = (muted: boolean) => {
+  const toggleVideoMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = muted;
+      const newMutedState = !isVideoMuted;
+      videoRef.current.muted = newMutedState;
+      setIsVideoMuted(newMutedState);
     }
   };
   return <div className="min-h-screen bg-background">
@@ -94,8 +97,6 @@ const Index = () => {
           <div 
             className="relative overflow-hidden group animate-fade-in" 
             style={{ animationDelay: "0.4s" }}
-            onMouseEnter={() => handleVideoHover(false)}
-            onMouseLeave={() => handleVideoHover(true)}
           >
             <video 
               ref={videoRef}
@@ -105,10 +106,29 @@ const Index = () => {
               muted 
               playsInline
               controls
-              className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110"
+              className="w-full h-[600px] object-cover grayscale"
               aria-label="Aerial photography video"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
+            <button
+              onClick={toggleVideoMute}
+              className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/20 backdrop-blur-sm border-2 border-white/40 rounded-full p-3 hover:bg-white/30 z-10"
+              aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
+            >
+              {isVideoMuted ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <line x1="23" y1="9" x2="17" y2="15"/>
+                  <line x1="17" y1="9" x2="23" y2="15"/>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+              )}
+            </button>
           </div>
 
           <div className="relative overflow-hidden group animate-fade-in md:col-span-2" style={{
