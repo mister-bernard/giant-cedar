@@ -52,7 +52,7 @@ const Index = () => {
             AERIAL PHOTOGRAPHY & MISSION PLANNING
           </p>
           <p className="text-lg md:text-xl font-light tracking-wide text-white/80 mb-12">
-            Based in Idaho • Serving the Western 12 States
+            From Idaho's backcountry to the Pacific coast — serving the Western 12 States.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button
