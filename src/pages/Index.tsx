@@ -79,21 +79,21 @@ const Index = () => {
           <div className="relative overflow-hidden group animate-fade-in" style={{
           animationDelay: "0.1s"
         }}>
-            <img src={aerial1} alt="Aerial photography 1" className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110" />
+            <img src={aerial1} alt="Aerial photography 1" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
           <div className="relative overflow-hidden group animate-fade-in" style={{
           animationDelay: "0.2s"
         }}>
-            <img src={aerial2} alt="Aerial photography 2" className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110" />
+            <img src={aerial2} alt="Aerial photography 2" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
           <div className="relative overflow-hidden group animate-fade-in" style={{
           animationDelay: "0.3s"
         }}>
-            <img src={aerial3} alt="Aerial photography 3" className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110" />
+            <img src={aerial3} alt="Aerial photography 3" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
@@ -144,7 +144,7 @@ const Index = () => {
               muted 
               playsInline
               controls
-              className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110"
+              className="w-full h-[600px] object-cover grayscale"
               aria-label="Aerial photography video 2"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
@@ -153,14 +153,14 @@ const Index = () => {
           <div className="relative overflow-hidden group animate-fade-in" style={{
           animationDelay: "0.6s"
         }}>
-            <img src={aerial6} alt="Aerial photography from cockpit" className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110" />
+            <img src={aerial6} alt="Aerial photography from cockpit" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
           <div className="relative overflow-hidden group animate-fade-in" style={{
           animationDelay: "0.7s"
         }}>
-            <img src={aerial7} alt="Red rock formations" className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110" />
+            <img src={aerial7} alt="Red rock formations" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
@@ -177,7 +177,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center gap-6 max-w-2xl mx-auto">
             {/* Logo and Name */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <p className="text-2xl font-bold tracking-wider" style={{
                 fontFamily: 'Georgia, serif'
               }}>GIANT</p>
@@ -188,7 +188,7 @@ const Index = () => {
             </div>
 
             {/* Tagline */}
-            <p className="text-muted-foreground text-center">
+            <p className="text-foreground/60 text-center">
               Capturing perspective from above • Idaho & Western US
             </p>
             
