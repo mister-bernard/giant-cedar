@@ -177,11 +177,14 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center gap-6 max-w-2xl mx-auto">
             {/* Logo and Name */}
-            <div className="flex items-center gap-3">
-              <img src={logoImage} alt="Giant Cedar" className="h-12 w-12 object-contain" />
+            <div className="flex items-center gap-4">
               <p className="text-2xl font-bold tracking-wider" style={{
                 fontFamily: 'Georgia, serif'
-              }}>GIANT CEDAR</p>
+              }}>GIANT</p>
+              <img src={logoImage} alt="Giant Cedar" className="h-14 w-14 object-contain" />
+              <p className="text-2xl font-bold tracking-wider" style={{
+                fontFamily: 'Georgia, serif'
+              }}>CEDAR</p>
             </div>
 
             {/* Tagline */}
