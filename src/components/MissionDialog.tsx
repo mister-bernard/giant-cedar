@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { MissionMap } from "./MissionMap";
+import { MobileMissionDialog } from "./MobileMissionDialog";
 
 interface MissionDialogProps {
   open: boolean;
@@ -125,6 +126,11 @@ ${interactiveUrl}`;
       toast.error("Failed to submit request. Please try again.");
     }
   };
+
+  // Show mobile version on small screens
+  if (isSmallMobile) {
+    return <MobileMissionDialog open={open} onOpenChange={onOpenChange} />;
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

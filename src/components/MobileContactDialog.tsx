@@ -1,33 +1,20 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { useState, useEffect } from "react";
-import { Phone } from "lucide-react";
-import { MobileContactDialog } from "./MobileContactDialog";
+import { useState } from "react";
+import { Phone, X } from "lucide-react";
 
-interface ContactDialogProps {
+interface MobileContactDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export const ContactDialog = ({ open, onOpenChange }: ContactDialogProps) => {
+export const MobileContactDialog = ({ open, onOpenChange }: MobileContactDialogProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [isSmallMobile, setIsSmallMobile] = useState(false);
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsSmallMobile(window.innerWidth < 640);
-    };
-    
-    checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,66 +50,76 @@ export const ContactDialog = ({ open, onOpenChange }: ContactDialogProps) => {
     }
   };
 
-  if (isSmallMobile) {
-    return <MobileContactDialog open={open} onOpenChange={onOpenChange} />;
-  }
+  if (!open) return null;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-background border-border">
-        <DialogHeader>
-          <DialogTitle className="text-5xl font-bold mb-2">CONTACT</DialogTitle>
-          <div className="flex items-center gap-3 flex-wrap">
-            <a 
-              href="tel:+12084004111" 
-              className="flex items-center gap-2 text-lg text-muted-foreground hover:text-primary transition-colors group"
-            >
-              <Phone className="w-5 h-5 group-hover:animate-pulse" />
-              <span>+1 208 400 4111</span>
-            </a>
-            <span className="text-lg text-muted-foreground">· Feel free to give us a call or text</span>
-          </div>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="fixed inset-0 z-50 bg-background animate-slide-in-right">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-lg border-b border-border px-6 py-4">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-3xl font-bold">CONTACT</h2>
+          <button
+            onClick={() => onOpenChange(false)}
+            className="p-2 hover:bg-muted rounded-full transition-colors touch-manipulation"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+        <a 
+          href="tel:+12084004111" 
+          className="flex items-center gap-2 text-base text-foreground hover:text-primary transition-colors"
+        >
+          <Phone className="w-5 h-5" />
+          <span className="font-medium">+1 208 400 4111</span>
+        </a>
+        <p className="text-sm text-muted-foreground mt-1">Call or text anytime</p>
+      </div>
+
+      {/* Form */}
+      <div className="overflow-y-auto h-[calc(100vh-140px)] px-6 py-6">
+        <form onSubmit={handleSubmit} className="space-y-5 pb-8">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-lg">Name</Label>
+            <Label htmlFor="mobile-contact-name" className="text-base font-medium">Name</Label>
             <Input 
-              id="name" 
+              id="mobile-contact-name" 
               placeholder="Your name" 
               required 
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-muted/50 border-border h-12 text-lg"
+              className="bg-muted/50 border-border h-14 text-base"
             />
           </div>
+
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-lg">Email</Label>
+            <Label htmlFor="mobile-contact-email" className="text-base font-medium">Email</Label>
             <Input 
-              id="email" 
+              id="mobile-contact-email" 
               type="email" 
               placeholder="your@email.com" 
               required 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-muted/50 border-border h-12 text-lg"
+              className="bg-muted/50 border-border h-14 text-base"
             />
           </div>
+
           <div className="space-y-2">
-            <Label htmlFor="message" className="text-lg">Message</Label>
+            <Label htmlFor="mobile-contact-message" className="text-base font-medium">Message</Label>
             <Textarea 
-              id="message" 
+              id="mobile-contact-message" 
               placeholder="Tell us about your project..." 
               required 
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="bg-muted/50 border-border min-h-32 text-lg resize-none"
+              className="bg-muted/50 border-border min-h-40 text-base resize-none"
             />
           </div>
-          <Button type="submit" size="lg" className="w-full text-lg h-14">
+
+          <Button type="submit" size="lg" className="w-full text-base h-14 font-semibold">
             SEND MESSAGE
           </Button>
         </form>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };

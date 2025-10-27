@@ -1,9 +1,29 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { MobileAboutDialog } from "./MobileAboutDialog";
+import { useState, useEffect } from "react";
+
 interface AboutDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
 export const AboutDialog = ({ open, onOpenChange }: AboutDialogProps) => {
+  const [isSmallMobile, setIsSmallMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallMobile(window.innerWidth < 640);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  if (isSmallMobile) {
+    return <MobileAboutDialog open={open} onOpenChange={onOpenChange} />;
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl bg-background border-border">
