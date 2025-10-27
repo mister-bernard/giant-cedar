@@ -44,6 +44,15 @@ export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
     const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/geojson(%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22stroke%22%3A%22%23ff0000%22%2C%22stroke-width%22%3A3%2C%22fill%22%3A%22%23ff0000%22%2C%22fill-opacity%22%3A0.3%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Polygon%22%2C%22coordinates%22%3A%5B%5B${closedCoords.map(c => `%5B${c[0]}%2C${c[1]}%5D`).join('%2C')}%5D%5D%7D%7D)/auto/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
     const interactiveUrl = `${window.location.origin}/share-mission?coords=${encodeURIComponent(closedCoords.map(coord => `${coord[0]},${coord[1]}`).join(';'))}`;
 
+    // Format coordinates for easy copying into flight planning apps
+    const waypointsList = selectedArea.map((coord, idx) => 
+      `WP${idx + 1}: ${coord[1].toFixed(6)}, ${coord[0].toFixed(6)}`
+    ).join('\n');
+    
+    const coordinatesPairs = selectedArea.map(coord => 
+      `${coord[1].toFixed(6)},${coord[0].toFixed(6)}`
+    ).join('\n');
+
     const message = `🚁 New Mission Request - Giant Cedar
 
 📋 Contact Details:
@@ -54,8 +63,11 @@ Phone: ${formData.phone}
 📝 Description:
 ${formData.description}
 
-📍 Mission Area Coordinates:
-${JSON.stringify(selectedArea, null, 2)}
+📍 Mission Area Waypoints (Lat, Lon):
+${waypointsList}
+
+📋 Copy-Paste Format (one per line):
+${coordinatesPairs}
 
 🗺️ Static Map (area highlighted):
 ${mapboxStaticUrl}
