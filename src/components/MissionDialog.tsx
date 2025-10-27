@@ -112,36 +112,36 @@ ${interactiveUrl}`;
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-7xl h-[90vh] bg-background border-border p-0 overflow-hidden flex flex-col">
-        <DialogHeader className="p-6 pb-4 border-b border-border">
-          <DialogTitle className="text-4xl font-bold">PLAN A MISSION</DialogTitle>
-          <p className="text-lg text-muted-foreground mt-2">
+        <DialogHeader className="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-border">
+          <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-bold">PLAN A MISSION</DialogTitle>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground mt-1 sm:mt-2">
             Optionally select your target area on the map and provide project details
           </p>
         </DialogHeader>
         
-        <div className="flex-1 flex overflow-hidden">
-          {/* Map Section */}
-          <div className="flex-1 relative">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+          {/* Map Section - Compact on mobile, full on desktop */}
+          <div className="h-48 md:h-auto md:flex-1 relative border-b md:border-b-0 md:border-r border-border">
             <MissionMap onAreaSelect={setSelectedArea} />
           </div>
 
-          {/* Form Section */}
-          <div className="w-96 p-6 border-l border-border overflow-y-auto bg-background/50 backdrop-blur">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="mission-name" className="text-base">Name *</Label>
+          {/* Form Section - Full width on mobile, fixed width on desktop */}
+          <div className="flex-1 md:flex-none md:w-96 p-4 sm:p-6 overflow-y-auto bg-background/50 backdrop-blur">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="mission-name" className="text-sm sm:text-base">Name *</Label>
                 <Input
                   id="mission-name"
                   placeholder="Your name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="bg-muted/50 border-border h-11"
+                  className="bg-muted/50 border-border h-10 sm:h-11"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="mission-email" className="text-base">Email *</Label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="mission-email" className="text-sm sm:text-base">Email *</Label>
                 <Input
                   id="mission-email"
                   type="email"
@@ -149,12 +149,12 @@ ${interactiveUrl}`;
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="bg-muted/50 border-border h-11"
+                  className="bg-muted/50 border-border h-10 sm:h-11"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="mission-phone" className="text-base">Phone *</Label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="mission-phone" className="text-sm sm:text-base">Phone *</Label>
                 <Input
                   id="mission-phone"
                   type="tel"
@@ -162,25 +162,25 @@ ${interactiveUrl}`;
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
-                  className="bg-muted/50 border-border h-11"
+                  className="bg-muted/50 border-border h-10 sm:h-11"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="mission-description" className="text-base">Project Description *</Label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="mission-description" className="text-sm sm:text-base">Project Description *</Label>
                 <Textarea
                   id="mission-description"
                   placeholder="Describe your project, timeline, and any specific requirements..."
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   required
-                  className="bg-muted/50 border-border min-h-32 resize-none"
+                  className="bg-muted/50 border-border min-h-24 sm:min-h-32 resize-none"
                 />
               </div>
 
               {selectedArea && (
-                <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
-                  <p className="text-sm font-medium text-primary">
+                <div className="p-2.5 sm:p-3 bg-primary/10 rounded-lg border border-primary/20">
+                  <p className="text-xs sm:text-sm font-medium text-primary">
                     ✓ Area selected on map
                   </p>
                 </div>
@@ -189,7 +189,7 @@ ${interactiveUrl}`;
               <Button
                 type="submit"
                 size="lg"
-                className="w-full text-base h-12"
+                className="w-full text-sm sm:text-base h-11 sm:h-12"
               >
                 SUBMIT MISSION REQUEST
               </Button>
