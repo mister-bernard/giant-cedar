@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import { AboutDialog } from "@/components/AboutDialog";
 import { ContactDialog } from "@/components/ContactDialog";
 import { MissionDialog } from "@/components/MissionDialog";
+import { Instagram, Send } from "lucide-react";
 import heroImage from "@/assets/hero-aerial.jpg";
 import logoImage from "@/assets/giant-cedar-logo.png";
 import aerial1 from "@/assets/aerial-1.jpg";
 import aerial2 from "@/assets/aerial-2.jpg";
 import aerial3 from "@/assets/aerial-3.jpg";
-import aerial4 from "@/assets/aerial-4.jpg";
+import aerial4 from "@/assets/aerial-4.mp4";
 const Index = () => {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
@@ -81,8 +82,17 @@ const Index = () => {
           <div className="relative overflow-hidden group animate-fade-in" style={{
           animationDelay: "0.4s"
         }}>
-            <img src={aerial4} alt="Aerial photography 4" className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+            <video 
+              src={aerial4} 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              controls
+              className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110"
+              aria-label="Aerial photography video"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
           </div>
         </div>
       </section>
@@ -96,7 +106,41 @@ const Index = () => {
             fontFamily: 'Georgia, serif'
           }}>GIANT CEDAR</p>
           </div>
-          <p className="text-muted-foreground">Capturing perspective from above • Idaho & Western US</p>
+          <p className="text-muted-foreground mb-6">Capturing perspective from above • Idaho & Western US</p>
+          
+          <Button 
+            size="lg" 
+            variant="outline" 
+            asChild
+            className="mb-6 bg-white/10 backdrop-blur border-white/20 text-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+          >
+            <a 
+              href="mailto:giantcedar@cognitive.ch?subject=Subscribe%20to%20Giant%20Cedar%20Updates&body=Hello%20Giant%20Cedar%20team%2C%0A%0AI%20would%20like%20to%20subscribe%20to%20your%20mailing%20list%20to%20receive%20updates%20about%20aerial%20photography%20services%20and%20news.%0A%0APlease%20add%20my%20email%20address%20to%20your%20subscriber%20list.%20Simply%20reply%20to%20confirm%20my%20subscription.%0A%0AThank%20you!"
+            >
+              SUBSCRIBE TO UPDATES
+            </a>
+          </Button>
+
+          <div className="flex items-center justify-center gap-6">
+            <a 
+              href="https://instagram.com/giantcedar" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
+              aria-label="Follow us on Instagram"
+            >
+              <Instagram size={24} className="text-foreground" />
+            </a>
+            <a 
+              href="https://t.me/giantcedar" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
+              aria-label="Join us on Telegram"
+            >
+              <Send size={24} className="text-foreground" />
+            </a>
+          </div>
         </div>
       </footer>
 
