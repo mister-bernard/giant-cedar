@@ -36,87 +36,79 @@ export const GlistenText = ({ text, className = "", style }: GlistenTextProps) =
     const fontWeight = style.fontWeight;
 
     let animationFrame: number;
-    let time = 0;
+    let startTime = Date.now();
+    const duration = 1200; // Fast animation - 1.2 seconds total
 
     const animate = () => {
-      time += 0.008; // Slower, gentler animation speed
-      
-      // Clear canvas with soft fade
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Clear canvas
       ctx.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio);
 
-      // Set text properties
-      ctx.font = `${fontWeight} ${fontSize} ${fontFamily}`;
-      ctx.textBaseline = "top";
+      if (progress < 1) {
+        // Set text properties
+        ctx.font = `${fontWeight} ${fontSize} ${fontFamily}`;
+        ctx.textBaseline = "top";
 
-      const canvasWidth = canvas.width / window.devicePixelRatio;
-      const canvasHeight = canvas.height / window.devicePixelRatio;
+        // Natural easing - quick in, quick out like a flash of light through leaves
+        const easeProgress = progress < 0.5 
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
-      // Create a soft, breathing wave effect
-      const wave1 = Math.sin(time) * 0.5 + 0.5;
-      const wave2 = Math.sin(time * 0.7 + 1) * 0.5 + 0.5;
-      const wave3 = Math.sin(time * 0.5 + 2) * 0.5 + 0.5;
+        const canvasWidth = canvas.width / window.devicePixelRatio;
+        const sweepPosition = easeProgress * (canvasWidth + 300) - 150;
+        
+        // Main green glisten - natural forest green
+        const gradient1 = ctx.createLinearGradient(
+          sweepPosition - 150,
+          0,
+          sweepPosition + 150,
+          0
+        );
+        
+        // Giant Cedar brand green colors
+        gradient1.addColorStop(0, "rgba(106, 168, 79, 0)");
+        gradient1.addColorStop(0.2, "rgba(139, 195, 74, 0.3)");
+        gradient1.addColorStop(0.4, "rgba(156, 204, 101, 0.7)");
+        gradient1.addColorStop(0.5, "rgba(174, 213, 129, 1)");
+        gradient1.addColorStop(0.6, "rgba(156, 204, 101, 0.7)");
+        gradient1.addColorStop(0.8, "rgba(139, 195, 74, 0.3)");
+        gradient1.addColorStop(1, "rgba(106, 168, 79, 0)");
 
-      // Soft pastel glow - main layer
-      const gradient1 = ctx.createLinearGradient(
-        -canvasWidth * 0.2 + wave1 * canvasWidth * 1.4,
-        0,
-        canvasWidth * 0.2 + wave1 * canvasWidth * 1.4,
-        canvasHeight
-      );
-      
-      gradient1.addColorStop(0, `rgba(255, 255, 255, ${0.15 * wave1})`);
-      gradient1.addColorStop(0.3, `rgba(220, 230, 255, ${0.25 * wave1})`);
-      gradient1.addColorStop(0.5, `rgba(200, 220, 255, ${0.35 * wave1})`);
-      gradient1.addColorStop(0.7, `rgba(220, 230, 255, ${0.25 * wave1})`);
-      gradient1.addColorStop(1, `rgba(255, 255, 255, ${0.15 * wave1})`);
+        ctx.fillStyle = gradient1;
+        ctx.fillText(text, 0, 0);
 
-      ctx.fillStyle = gradient1;
-      ctx.fillText(text, 0, 0);
+        // Bright highlight layer - like sunlight through trees
+        const gradient2 = ctx.createLinearGradient(
+          sweepPosition - 80,
+          0,
+          sweepPosition + 80,
+          0
+        );
+        
+        gradient2.addColorStop(0, "rgba(200, 230, 201, 0)");
+        gradient2.addColorStop(0.35, "rgba(220, 237, 200, 0.4)");
+        gradient2.addColorStop(0.5, "rgba(240, 245, 220, 0.6)");
+        gradient2.addColorStop(0.65, "rgba(220, 237, 200, 0.4)");
+        gradient2.addColorStop(1, "rgba(200, 230, 201, 0)");
 
-      // Soft pearl shimmer - second layer
-      const gradient2 = ctx.createRadialGradient(
-        canvasWidth * (0.3 + wave2 * 0.4),
-        canvasHeight * 0.5,
-        0,
-        canvasWidth * (0.3 + wave2 * 0.4),
-        canvasHeight * 0.5,
-        canvasWidth * 0.6
-      );
-      
-      gradient2.addColorStop(0, `rgba(255, 250, 245, ${0.3 * wave2})`);
-      gradient2.addColorStop(0.4, `rgba(255, 240, 245, ${0.2 * wave2})`);
-      gradient2.addColorStop(0.7, `rgba(245, 245, 255, ${0.1 * wave2})`);
-      gradient2.addColorStop(1, "rgba(255, 255, 255, 0)");
+        ctx.globalCompositeOperation = "screen";
+        ctx.fillStyle = gradient2;
+        ctx.fillText(text, 0, 0);
+        ctx.globalCompositeOperation = "source-over";
 
-      ctx.globalCompositeOperation = "screen";
-      ctx.fillStyle = gradient2;
-      ctx.fillText(text, 0, 0);
-
-      // Ethereal glow - third layer
-      const gradient3 = ctx.createLinearGradient(
-        wave3 * canvasWidth * 0.5,
-        0,
-        canvasWidth * 0.5 + wave3 * canvasWidth * 0.5,
-        canvasHeight
-      );
-      
-      gradient3.addColorStop(0, "rgba(255, 255, 255, 0)");
-      gradient3.addColorStop(0.4, `rgba(240, 245, 255, ${0.15 * wave3})`);
-      gradient3.addColorStop(0.6, `rgba(255, 250, 250, ${0.2 * wave3})`);
-      gradient3.addColorStop(1, "rgba(255, 255, 255, 0)");
-
-      ctx.fillStyle = gradient3;
-      ctx.fillText(text, 0, 0);
-
-      ctx.globalCompositeOperation = "source-over";
-
-      animationFrame = requestAnimationFrame(animate);
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        // Animation complete - stop
+        ctx.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio);
+      }
     };
 
-    // Start animation
+    // Start animation after a brief delay
     const timeout = setTimeout(() => {
       animate();
-    }, 100);
+    }, 300);
 
     // Cleanup
     return () => {
