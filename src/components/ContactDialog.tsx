@@ -56,15 +56,15 @@ export const ContactDialog = ({ open, onOpenChange }: ContactDialogProps) => {
       <DialogContent className="max-w-2xl bg-background border-border">
         <DialogHeader>
           <DialogTitle className="text-5xl font-bold mb-2">CONTACT</DialogTitle>
-          <div className="flex flex-col gap-1">
-            <p className="text-sm text-muted-foreground">Feel free to give us a text or call</p>
+          <div className="flex items-center gap-3 flex-wrap">
             <a 
               href="tel:+12084004111" 
-              className="flex items-center gap-2 text-lg text-muted-foreground hover:text-primary transition-colors w-fit group"
+              className="flex items-center gap-2 text-lg text-muted-foreground hover:text-primary transition-colors group"
             >
               <Phone className="w-5 h-5 group-hover:animate-pulse" />
               <span>+1 208 400 4111</span>
             </a>
+            <span className="text-lg text-muted-foreground">· Feel free to give us a call or text</span>
           </div>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
