@@ -19,37 +19,35 @@ export const ContactDialog = ({ open, onOpenChange }: ContactDialogProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Send via email (mailto)
-    const emailSubject = `Contact from ${name}`;
-    const emailBody = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
-    window.open(`mailto:contact@giantcedar.com?subject=${encodeURIComponent(emailSubject)}&body=${emailBody}`, '_blank');
-    
-    // Send via Telegram
-    const telegramBotToken = "7869780637:AAHbTWMvAE_P3mLQlxk1-KqtvIlgP4i_GNM";
-    const telegramChatId = "7435932804";
-    const telegramMessage = `🔔 New Contact Form Submission\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
+    const telegramMessage = `📬 New Contact Form Submission - Giant Cedar\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
     
     try {
-      await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+      const response = await fetch(`https://api.telegram.org/bot8328499499:AAHFx5uL6rpX8foimTO54-IuRpz0Yx8Ur3w/sendMessage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          chat_id: telegramChatId,
+          chat_id: '39172309',
           text: telegramMessage,
         }),
       });
-      toast.success("Message sent via email and Telegram!");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Telegram API error:', errorData);
+        throw new Error(errorData.description || 'Failed to send message');
+      }
+
+      toast.success("Message sent! We'll be in touch soon.");
+      setName("");
+      setEmail("");
+      setMessage("");
+      onOpenChange(false);
     } catch (error) {
-      console.error("Telegram send error:", error);
-      toast.success("Message sent via email!");
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message. Please try again.");
     }
-    
-    setName("");
-    setEmail("");
-    setMessage("");
-    onOpenChange(false);
   };
 
   return (
