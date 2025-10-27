@@ -30,7 +30,8 @@ const Index = () => {
       setIsVideoMuted(newMutedState);
     }
   };
-  return <div className="min-h-screen bg-background">
+  return (
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -39,28 +40,42 @@ const Index = () => {
         </div>
 
         <div className="relative z-10 text-center px-4 animate-fade-in">
-          <div className="flex items-center justify-center mb-6">
-            
-          </div>
-          <GlistenText 
+          <div className="flex items-center justify-center mb-6"></div>
+          <GlistenText
             text="GIANT CEDAR"
             className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter"
             style={{
-              fontFamily: 'Georgia, serif'
+              fontFamily: "Georgia, serif",
             }}
           />
           <p className="text-2xl md:text-3xl font-light tracking-wider text-white/90 mb-12">
             AERIAL PHOTOGRAPHY & MISSION PLANNING
           </p>
-          <p className="text-lg md:text-xl font-light tracking-wide text-white/80 mb-12">Based in Idaho • Serving the Western 12 States</p>
+          <p className="text-lg md:text-xl font-light tracking-wide text-white/80 mb-12">
+            Based in Idaho • Serving the Western 12 States
+          </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" variant="outline" onClick={() => setAboutOpen(true)} className="text-lg h-14 px-8 bg-white/10 backdrop-blur border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300">
-              ABOUT
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => setAboutOpen(true)}
+              className="text-lg h-14 px-8 bg-white/10 backdrop-blur border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300"
+            >
+              OUR WORK
             </Button>
-            <Button size="lg" onClick={() => setMissionOpen(true)} className="text-lg h-14 px-8 bg-white text-black hover:bg-white/90 transition-all duration-300">
+            <Button
+              size="lg"
+              onClick={() => setMissionOpen(true)}
+              className="text-lg h-14 px-8 bg-white text-black hover:bg-white/90 transition-all duration-300"
+            >
               PLAN A MISSION
             </Button>
-            <Button size="lg" variant="outline" onClick={() => setContactOpen(true)} className="text-lg h-14 px-8 bg-white/10 backdrop-blur border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => setContactOpen(true)}
+              className="text-lg h-14 px-8 bg-white/10 backdrop-blur border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300"
+            >
               CONTACT
             </Button>
           </div>
@@ -69,44 +84,53 @@ const Index = () => {
 
       {/* Gallery Section */}
       <section className="container mx-auto px-4 py-24">
-        <h2 className="text-6xl md:text-8xl font-bold mb-16 text-center tracking-tighter" style={{
-        fontFamily: 'Georgia, serif'
-      }}>
+        <h2
+          className="text-6xl md:text-8xl font-bold mb-16 text-center tracking-tighter"
+          style={{
+            fontFamily: "Georgia, serif",
+          }}
+        >
           PORTFOLIO
         </h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-7xl mx-auto">
-          <div className="relative overflow-hidden group animate-fade-in" style={{
-          animationDelay: "0.1s"
-        }}>
+          <div
+            className="relative overflow-hidden group animate-fade-in"
+            style={{
+              animationDelay: "0.1s",
+            }}
+          >
             <img src={aerial1} alt="Aerial photography 1" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
-          <div className="relative overflow-hidden group animate-fade-in" style={{
-          animationDelay: "0.2s"
-        }}>
+          <div
+            className="relative overflow-hidden group animate-fade-in"
+            style={{
+              animationDelay: "0.2s",
+            }}
+          >
             <img src={aerial2} alt="Aerial photography 2" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
-          <div className="relative overflow-hidden group animate-fade-in" style={{
-          animationDelay: "0.3s"
-        }}>
+          <div
+            className="relative overflow-hidden group animate-fade-in"
+            style={{
+              animationDelay: "0.3s",
+            }}
+          >
             <img src={aerial3} alt="Aerial photography 3" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
-          <div 
-            className="relative overflow-hidden group animate-fade-in" 
-            style={{ animationDelay: "0.4s" }}
-          >
-            <video 
+          <div className="relative overflow-hidden group animate-fade-in" style={{ animationDelay: "0.4s" }}>
+            <video
               ref={videoRef}
-              src={aerial4} 
-              autoPlay 
-              loop 
-              muted 
+              src={aerial4}
+              autoPlay
+              loop
+              muted
               playsInline
               controls
               className="w-full h-[600px] object-cover grayscale"
@@ -119,29 +143,54 @@ const Index = () => {
               aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
             >
               {isVideoMuted ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                  <line x1="23" y1="9" x2="17" y2="15"/>
-                  <line x1="17" y1="9" x2="23" y2="15"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-white"
+                >
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <line x1="23" y1="9" x2="17" y2="15" />
+                  <line x1="17" y1="9" x2="23" y2="15" />
                 </svg>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-white"
+                >
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                 </svg>
               )}
             </button>
           </div>
 
-          <div className="relative overflow-hidden group animate-fade-in md:col-span-2" style={{
-          animationDelay: "0.5s"
-        }}>
-            <video 
-              src={aerial5} 
-              autoPlay 
-              loop 
-              muted 
+          <div
+            className="relative overflow-hidden group animate-fade-in md:col-span-2"
+            style={{
+              animationDelay: "0.5s",
+            }}
+          >
+            <video
+              src={aerial5}
+              autoPlay
+              loop
+              muted
               playsInline
               controls
               className="w-full h-[600px] object-cover grayscale"
@@ -150,23 +199,36 @@ const Index = () => {
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
           </div>
 
-          <div className="relative overflow-hidden group animate-fade-in" style={{
-          animationDelay: "0.6s"
-        }}>
-            <img src={aerial6} alt="Aerial photography from cockpit" className="w-full h-[600px] object-cover grayscale" />
+          <div
+            className="relative overflow-hidden group animate-fade-in"
+            style={{
+              animationDelay: "0.6s",
+            }}
+          >
+            <img
+              src={aerial6}
+              alt="Aerial photography from cockpit"
+              className="w-full h-[600px] object-cover grayscale"
+            />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
-          <div className="relative overflow-hidden group animate-fade-in" style={{
-          animationDelay: "0.7s"
-        }}>
+          <div
+            className="relative overflow-hidden group animate-fade-in"
+            style={{
+              animationDelay: "0.7s",
+            }}
+          >
             <img src={aerial7} alt="Red rock formations" className="w-full h-[600px] object-cover grayscale" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
-          <div className="md:col-span-2 animate-fade-in" style={{
-          animationDelay: "0.8s"
-        }}>
+          <div
+            className="md:col-span-2 animate-fade-in"
+            style={{
+              animationDelay: "0.8s",
+            }}
+          >
             <YouTubeEmbed videoId="_xzdPfMlzcc" thumbnail={youtubeThumbnail} />
           </div>
         </div>
@@ -178,48 +240,54 @@ const Index = () => {
           <div className="flex flex-col items-center gap-6 max-w-2xl mx-auto">
             {/* Logo and Name */}
             <div className="flex items-center gap-2">
-              <p className="text-2xl font-bold tracking-wider" style={{
-                fontFamily: 'Georgia, serif'
-              }}>GIANT</p>
+              <p
+                className="text-2xl font-bold tracking-wider"
+                style={{
+                  fontFamily: "Georgia, serif",
+                }}
+              >
+                GIANT
+              </p>
               <img src={logoImage} alt="Giant Cedar" className="h-14 w-14 object-contain" />
-              <p className="text-2xl font-bold tracking-wider" style={{
-                fontFamily: 'Georgia, serif'
-              }}>CEDAR</p>
+              <p
+                className="text-2xl font-bold tracking-wider"
+                style={{
+                  fontFamily: "Georgia, serif",
+                }}
+              >
+                CEDAR
+              </p>
             </div>
 
             {/* Tagline */}
-            <p className="text-foreground/60 text-center">
-              Capturing perspectives from above • Idaho & Western US
-            </p>
-            
+            <p className="text-foreground/60 text-center">Capturing perspectives from above • Idaho & Western US</p>
+
             {/* Subscribe Button */}
-            <Button 
-              size="lg" 
-              variant="outline" 
+            <Button
+              size="lg"
+              variant="outline"
               asChild
               className="bg-white/10 backdrop-blur border-white/20 text-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-300"
             >
-              <a 
-                href="mailto:giantcedar@cognitive.ch?subject=Subscribe%20to%20Giant%20Cedar%20Updates&body=Hello%20Giant%20Cedar%20team%2C%0A%0AI%20would%20like%20to%20subscribe%20to%20your%20mailing%20list%20to%20receive%20updates%20about%20aerial%20photography%20services%20and%20news.%0A%0APlease%20add%20my%20email%20address%20to%20your%20subscriber%20list.%20Simply%20reply%20to%20confirm%20my%20subscription.%0A%0AThank%20you!"
-              >
+              <a href="mailto:giantcedar@cognitive.ch?subject=Subscribe%20to%20Giant%20Cedar%20Updates&body=Hello%20Giant%20Cedar%20team%2C%0A%0AI%20would%20like%20to%20subscribe%20to%20your%20mailing%20list%20to%20receive%20updates%20about%20aerial%20photography%20services%20and%20news.%0A%0APlease%20add%20my%20email%20address%20to%20your%20subscriber%20list.%20Simply%20reply%20to%20confirm%20my%20subscription.%0A%0AThank%20you!">
                 SUBSCRIBE TO UPDATES
               </a>
             </Button>
 
             {/* Social Links */}
             <div className="flex items-center gap-6">
-              <a 
-                href="https://instagram.com/giantcedar" 
-                target="_blank" 
+              <a
+                href="https://instagram.com/giantcedar"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
                 aria-label="Follow us on Instagram"
               >
                 <Instagram size={24} className="text-foreground" />
               </a>
-              <a 
-                href="https://t.me/giantcedar" 
-                target="_blank" 
+              <a
+                href="https://t.me/giantcedar"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
                 aria-label="Join us on Telegram"
@@ -235,6 +303,7 @@ const Index = () => {
       <AboutDialog open={aboutOpen} onOpenChange={setAboutOpen} />
       <ContactDialog open={contactOpen} onOpenChange={setContactOpen} />
       <MissionDialog open={missionOpen} onOpenChange={setMissionOpen} />
-    </div>;
+    </div>
+  );
 };
 export default Index;
