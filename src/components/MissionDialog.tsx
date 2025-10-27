@@ -23,37 +23,8 @@ export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!selectedArea) {
-      toast.error("Please select an area on the map");
-      return;
-    }
 
-    // Create Mapbox Static API URL with polygon overlay
-    // Ensure polygon is closed and coordinates are semicolon-separated
-    const closedCoords = (() => {
-      const first = selectedArea[0];
-      const last = selectedArea[selectedArea.length - 1];
-      if (first[0] !== last[0] || first[1] !== last[1]) {
-        return [...selectedArea, first];
-      }
-      return selectedArea;
-    })();
-    const coordinatesPath = closedCoords.map(coord => `${coord[0]},${coord[1]}`).join(',');
-    // Use geojson overlay for better polygon rendering
-    const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/geojson(%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22stroke%22%3A%22%23ff0000%22%2C%22stroke-width%22%3A3%2C%22fill%22%3A%22%23ff0000%22%2C%22fill-opacity%22%3A0.3%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Polygon%22%2C%22coordinates%22%3A%5B%5B${closedCoords.map(c => `%5B${c[0]}%2C${c[1]}%5D`).join('%2C')}%5D%5D%7D%7D)/auto/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
-    const interactiveUrl = `${window.location.origin}/share-mission?coords=${encodeURIComponent(closedCoords.map(coord => `${coord[0]},${coord[1]}`).join(';'))}`;
-
-    // Format coordinates for easy copying into flight planning apps
-    const waypointsList = selectedArea.map((coord, idx) => 
-      `WP${idx + 1}: ${coord[1].toFixed(6)}, ${coord[0].toFixed(6)}`
-    ).join('\n');
-    
-    const coordinatesPairs = selectedArea.map(coord => 
-      `${coord[1].toFixed(6)},${coord[0].toFixed(6)}`
-    ).join('\n');
-
-    const message = `🚁 New Mission Request - Giant Cedar
+    let message = `🚁 New Mission Request - Giant Cedar
 
 📋 Contact Details:
 Name: ${formData.name}
@@ -61,7 +32,34 @@ Email: ${formData.email}
 Phone: ${formData.phone}
 
 📝 Description:
-${formData.description}
+${formData.description}`;
+
+    // Add map area details only if an area was selected
+    if (selectedArea) {
+      // Create Mapbox Static API URL with polygon overlay
+      // Ensure polygon is closed and coordinates are semicolon-separated
+      const closedCoords = (() => {
+        const first = selectedArea[0];
+        const last = selectedArea[selectedArea.length - 1];
+        if (first[0] !== last[0] || first[1] !== last[1]) {
+          return [...selectedArea, first];
+        }
+        return selectedArea;
+      })();
+      
+      const mapboxStaticUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/geojson(%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22stroke%22%3A%22%23ff0000%22%2C%22stroke-width%22%3A3%2C%22fill%22%3A%22%23ff0000%22%2C%22fill-opacity%22%3A0.3%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Polygon%22%2C%22coordinates%22%3A%5B%5B${closedCoords.map(c => `%5B${c[0]}%2C${c[1]}%5D`).join('%2C')}%5D%5D%7D%7D)/auto/600x400@2x?access_token=pk.eyJ1IjoiYXNkZmZkc2E1NSIsImEiOiJjbWg4N2UxdzEweHZoMndvYTh5enlxNW83In0.hgsVonD6F9foyMQdXbeUFQ`;
+      const interactiveUrl = `${window.location.origin}/share-mission?coords=${encodeURIComponent(closedCoords.map(coord => `${coord[0]},${coord[1]}`).join(';'))}`;
+
+      // Format coordinates for easy copying into flight planning apps
+      const waypointsList = selectedArea.map((coord, idx) => 
+        `WP${idx + 1}: ${coord[1].toFixed(6)}, ${coord[0].toFixed(6)}`
+      ).join('\n');
+      
+      const coordinatesPairs = selectedArea.map(coord => 
+        `${coord[1].toFixed(6)},${coord[0].toFixed(6)}`
+      ).join('\n');
+
+      message += `
 
 📍 Mission Area Waypoints (Lat, Lon):
 ${waypointsList}
@@ -74,6 +72,11 @@ ${mapboxStaticUrl}
 
 🔗 Interactive Map:
 ${interactiveUrl}`;
+    } else {
+      message += `
+
+📍 Mission Area: Not specified`;
+    }
 
     try {
       // Send to Telegram
@@ -112,7 +115,7 @@ ${interactiveUrl}`;
         <DialogHeader className="p-6 pb-4 border-b border-border">
           <DialogTitle className="text-4xl font-bold">PLAN A MISSION</DialogTitle>
           <p className="text-lg text-muted-foreground mt-2">
-            Select your target area on the map and provide project details
+            Optionally select your target area on the map and provide project details
           </p>
         </DialogHeader>
         
@@ -192,7 +195,7 @@ ${interactiveUrl}`;
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
-                * All fields required. We'll contact you within 24 hours.
+                * All fields required. Map area selection is optional. We'll contact you within 24 hours.
               </p>
             </form>
           </div>
