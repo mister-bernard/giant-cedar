@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Phone } from "lucide-react";
 
 interface ContactDialogProps {
   open: boolean;
@@ -54,7 +55,14 @@ export const ContactDialog = ({ open, onOpenChange }: ContactDialogProps) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl bg-background border-border">
         <DialogHeader>
-          <DialogTitle className="text-5xl font-bold mb-6">CONTACT</DialogTitle>
+          <DialogTitle className="text-5xl font-bold mb-2">CONTACT</DialogTitle>
+          <a 
+            href="tel:+12084004111" 
+            className="flex items-center gap-2 text-lg text-muted-foreground hover:text-primary transition-colors w-fit group"
+          >
+            <Phone className="w-5 h-5 group-hover:animate-pulse" />
+            <span>+1 208 400 4111</span>
+          </a>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
