@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AboutDialog } from "@/components/AboutDialog";
 import { ContactDialog } from "@/components/ContactDialog";
 import { MissionDialog } from "@/components/MissionDialog";
+import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { Instagram, Send } from "lucide-react";
 import heroImage from "@/assets/hero-aerial.jpg";
 import logoImage from "@/assets/giant-cedar-logo.png";
@@ -10,6 +11,10 @@ import aerial1 from "@/assets/aerial-1.jpg";
 import aerial2 from "@/assets/aerial-2.jpg";
 import aerial3 from "@/assets/aerial-3.jpg";
 import aerial4 from "@/assets/aerial-4.mp4";
+import aerial5 from "@/assets/aerial-5.mov";
+import aerial6 from "@/assets/aerial-6.jpg";
+import aerial7 from "@/assets/aerial-7.jpg";
+import youtubeThumbnail from "@/assets/youtube-thumb.png";
 const Index = () => {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
@@ -93,6 +98,42 @@ const Index = () => {
               aria-label="Aerial photography video"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
+          </div>
+
+          <div className="relative overflow-hidden group animate-fade-in md:col-span-2" style={{
+          animationDelay: "0.5s"
+        }}>
+            <video 
+              src={aerial5} 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              controls
+              className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110"
+              aria-label="Aerial photography video 2"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
+          </div>
+
+          <div className="relative overflow-hidden group animate-fade-in" style={{
+          animationDelay: "0.6s"
+        }}>
+            <img src={aerial6} alt="Aerial photography from cockpit" className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+          </div>
+
+          <div className="relative overflow-hidden group animate-fade-in" style={{
+          animationDelay: "0.7s"
+        }}>
+            <img src={aerial7} alt="Red rock formations" className="w-full h-[600px] object-cover grayscale transition-transform duration-700 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+          </div>
+
+          <div className="md:col-span-2 animate-fade-in" style={{
+          animationDelay: "0.8s"
+        }}>
+            <YouTubeEmbed videoId="_xzdPfMlzcc" thumbnail={youtubeThumbnail} />
           </div>
         </div>
       </section>
