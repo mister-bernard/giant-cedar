@@ -189,7 +189,7 @@ const Index = () => {
 
             {/* Tagline */}
             <p className="text-foreground/60 text-center">
-              Capturing perspective from above • Idaho & Western US
+              Capturing perspectives from above • Idaho & Western US
             </p>
             
             {/* Subscribe Button */}
