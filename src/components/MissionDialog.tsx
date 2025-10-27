@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,12 +14,24 @@ interface MissionDialogProps {
 
 export const MissionDialog = ({ open, onOpenChange }: MissionDialogProps) => {
   const [selectedArea, setSelectedArea] = useState<number[][] | null>(null);
+  const [isSmallMobile, setIsSmallMobile] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     description: "",
+    address: "",
   });
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallMobile(window.innerWidth < 640);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,8 +46,13 @@ Phone: ${formData.phone}
 📝 Description:
 ${formData.description}`;
 
-    // Add map area details only if an area was selected
-    if (selectedArea) {
+    // Add location information
+    if (isSmallMobile && formData.address) {
+      message += `
+
+📍 Project Location:
+${formData.address}`;
+    } else if (selectedArea) {
       // Create Mapbox Static API URL with polygon overlay
       // Ensure polygon is closed and coordinates are semicolon-separated
       const closedCoords = (() => {
@@ -100,7 +117,7 @@ ${interactiveUrl}`;
       toast.success("Mission request submitted! We'll contact you soon.");
       
       // Reset form
-      setFormData({ name: "", email: "", phone: "", description: "" });
+      setFormData({ name: "", email: "", phone: "", description: "", address: "" });
       setSelectedArea(null);
       onOpenChange(false);
     } catch (error) {
@@ -115,18 +132,23 @@ ${interactiveUrl}`;
         <DialogHeader className="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-border">
           <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-bold">PLAN A MISSION</DialogTitle>
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground mt-1 sm:mt-2">
-            Optionally select your target area on the map and provide project details
+            {isSmallMobile 
+              ? "Provide your project details and location"
+              : "Optionally select your target area on the map and provide project details"
+            }
           </p>
         </DialogHeader>
         
         <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-          {/* Map Section - Compact on mobile, full on desktop */}
-          <div className="h-48 md:h-auto md:flex-1 relative border-b md:border-b-0 md:border-r border-border">
-            <MissionMap onAreaSelect={setSelectedArea} />
-          </div>
+          {/* Map Section - Hidden on small mobile, shown on tablet+ */}
+          {!isSmallMobile && (
+            <div className="h-48 md:h-auto md:flex-1 relative border-b md:border-b-0 md:border-r border-border">
+              <MissionMap onAreaSelect={setSelectedArea} />
+            </div>
+          )}
 
           {/* Form Section - Full width on mobile, fixed width on desktop */}
-          <div className="flex-1 md:flex-none md:w-96 p-4 sm:p-6 overflow-y-auto bg-background/50 backdrop-blur">
+          <div className={`flex-1 ${!isSmallMobile ? 'md:flex-none md:w-96' : ''} p-4 sm:p-6 overflow-y-auto bg-background/50 backdrop-blur`}>
             <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div className="space-y-1.5 sm:space-y-2">
                 <Label htmlFor="mission-name" className="text-sm sm:text-base">Name *</Label>
@@ -178,7 +200,21 @@ ${interactiveUrl}`;
                 />
               </div>
 
-              {selectedArea && (
+              {isSmallMobile && (
+                <div className="space-y-1.5 sm:space-y-2">
+                  <Label htmlFor="mission-address" className="text-sm sm:text-base">Project Location *</Label>
+                  <Input
+                    id="mission-address"
+                    placeholder="Enter address or general area (e.g., Boise, ID)"
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    required
+                    className="bg-muted/50 border-border h-10 sm:h-11"
+                  />
+                </div>
+              )}
+
+              {!isSmallMobile && selectedArea && (
                 <div className="p-2.5 sm:p-3 bg-primary/10 rounded-lg border border-primary/20">
                   <p className="text-xs sm:text-sm font-medium text-primary">
                     ✓ Area selected on map
@@ -195,7 +231,7 @@ ${interactiveUrl}`;
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
-                * All fields required. Map area selection is optional. We'll contact you within 24 hours.
+                * All fields required. {!isSmallMobile && "Map area selection is optional."} We'll contact you within 24 hours.
               </p>
             </form>
           </div>
