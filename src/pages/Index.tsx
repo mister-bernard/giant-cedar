@@ -4,6 +4,7 @@ import { AboutDialog } from "@/components/AboutDialog";
 import { ContactDialog } from "@/components/ContactDialog";
 import { MissionDialog } from "@/components/MissionDialog";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
+import { GlistenText } from "@/components/GlistenText";
 import { Instagram, Send } from "lucide-react";
 import heroImage from "@/assets/hero-aerial.jpg";
 import logoImage from "@/assets/giant-cedar-logo.png";
@@ -41,11 +42,13 @@ const Index = () => {
           <div className="flex items-center justify-center mb-6">
             
           </div>
-          <h1 className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter" style={{
-          fontFamily: 'Georgia, serif'
-        }}>
-            GIANT CEDAR
-          </h1>
+          <GlistenText 
+            text="GIANT CEDAR"
+            className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter"
+            style={{
+              fontFamily: 'Georgia, serif'
+            }}
+          />
           <p className="text-2xl md:text-3xl font-light tracking-wider text-white/90 mb-12">
             AERIAL PHOTOGRAPHY & MISSION PLANNING
           </p>
@@ -170,48 +173,57 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-12">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <img src={logoImage} alt="Giant Cedar" className="h-10 w-10 object-contain" />
-            <p className="text-2xl font-bold tracking-wider" style={{
-            fontFamily: 'Georgia, serif'
-          }}>GIANT CEDAR</p>
-          </div>
-          <p className="text-muted-foreground mb-6">Capturing perspective from above • Idaho & Western US</p>
-          
-          <Button 
-            size="lg" 
-            variant="outline" 
-            asChild
-            className="mb-6 bg-white/10 backdrop-blur border-white/20 text-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-300"
-          >
-            <a 
-              href="mailto:giantcedar@cognitive.ch?subject=Subscribe%20to%20Giant%20Cedar%20Updates&body=Hello%20Giant%20Cedar%20team%2C%0A%0AI%20would%20like%20to%20subscribe%20to%20your%20mailing%20list%20to%20receive%20updates%20about%20aerial%20photography%20services%20and%20news.%0A%0APlease%20add%20my%20email%20address%20to%20your%20subscriber%20list.%20Simply%20reply%20to%20confirm%20my%20subscription.%0A%0AThank%20you!"
-            >
-              SUBSCRIBE TO UPDATES
-            </a>
-          </Button>
+      <footer className="border-t border-border py-16">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center gap-6 max-w-2xl mx-auto">
+            {/* Logo and Name */}
+            <div className="flex items-center gap-3">
+              <img src={logoImage} alt="Giant Cedar" className="h-12 w-12 object-contain" />
+              <p className="text-2xl font-bold tracking-wider" style={{
+                fontFamily: 'Georgia, serif'
+              }}>GIANT CEDAR</p>
+            </div>
 
-          <div className="flex items-center justify-center gap-6">
-            <a 
-              href="https://instagram.com/giantcedar" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
-              aria-label="Follow us on Instagram"
+            {/* Tagline */}
+            <p className="text-muted-foreground text-center">
+              Capturing perspective from above • Idaho & Western US
+            </p>
+            
+            {/* Subscribe Button */}
+            <Button 
+              size="lg" 
+              variant="outline" 
+              asChild
+              className="bg-white/10 backdrop-blur border-white/20 text-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-300"
             >
-              <Instagram size={24} className="text-foreground" />
-            </a>
-            <a 
-              href="https://t.me/giantcedar" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
-              aria-label="Join us on Telegram"
-            >
-              <Send size={24} className="text-foreground" />
-            </a>
+              <a 
+                href="mailto:giantcedar@cognitive.ch?subject=Subscribe%20to%20Giant%20Cedar%20Updates&body=Hello%20Giant%20Cedar%20team%2C%0A%0AI%20would%20like%20to%20subscribe%20to%20your%20mailing%20list%20to%20receive%20updates%20about%20aerial%20photography%20services%20and%20news.%0A%0APlease%20add%20my%20email%20address%20to%20your%20subscriber%20list.%20Simply%20reply%20to%20confirm%20my%20subscription.%0A%0AThank%20you!"
+              >
+                SUBSCRIBE TO UPDATES
+              </a>
+            </Button>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-6">
+              <a 
+                href="https://instagram.com/giantcedar" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram size={24} className="text-foreground" />
+              </a>
+              <a 
+                href="https://t.me/giantcedar" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
+                aria-label="Join us on Telegram"
+              >
+                <Send size={24} className="text-foreground" />
+              </a>
+            </div>
           </div>
         </div>
       </footer>
