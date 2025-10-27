@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { AboutDialog } from "@/components/AboutDialog";
 import { ContactDialog } from "@/components/ContactDialog";
@@ -19,6 +19,13 @@ const Index = () => {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [missionOpen, setMissionOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleVideoHover = (muted: boolean) => {
+    if (videoRef.current) {
+      videoRef.current.muted = muted;
+    }
+  };
   return <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -84,10 +91,14 @@ const Index = () => {
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
-          <div className="relative overflow-hidden group animate-fade-in" style={{
-          animationDelay: "0.4s"
-        }}>
+          <div 
+            className="relative overflow-hidden group animate-fade-in" 
+            style={{ animationDelay: "0.4s" }}
+            onMouseEnter={() => handleVideoHover(false)}
+            onMouseLeave={() => handleVideoHover(true)}
+          >
             <video 
+              ref={videoRef}
               src={aerial4} 
               autoPlay 
               loop 

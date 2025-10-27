@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Play } from "lucide-react";
 
 interface YouTubeEmbedProps {
@@ -9,11 +9,30 @@ interface YouTubeEmbedProps {
 export const YouTubeEmbed = ({ videoId, thumbnail }: YouTubeEmbedProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== "https://www.youtube.com") return;
+      
+      try {
+        const data = JSON.parse(event.data);
+        if (data.event === "onStateChange" && data.info === 0) {
+          // Video ended (state 0)
+          setIsPlaying(false);
+        }
+      } catch (e) {
+        // Ignore parse errors
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
   if (isPlaying) {
     return (
       <div className="relative w-full aspect-video">
         <iframe
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           className="w-full h-full"
