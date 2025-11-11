@@ -32,15 +32,66 @@ const Index = () => {
   };
   return (
     <div className="min-h-screen bg-background">
+      {/* Structured Data for SEO */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Giant Cedar",
+          "description": "Professional aerial photography and mission planning services across Idaho and the Western United States",
+          "url": "https://giantcedar.lovable.app/",
+          "logo": "https://giantcedar.lovable.app/logo.png",
+          "image": "https://giantcedar.lovable.app/hero-aerial.jpg",
+          "telephone": "+1-XXX-XXX-XXXX",
+          "email": "giantcedar@cognitive.ch",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "ID",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "44.0682",
+            "longitude": "-114.7420"
+          },
+          "areaServed": [
+            "Idaho", "Montana", "Washington", "Oregon", "California",
+            "Nevada", "Utah", "Arizona", "Wyoming", "Colorado", "New Mexico", "Alaska"
+          ],
+          "priceRange": "$$",
+          "sameAs": [
+            "https://instagram.com/giantcedar",
+            "https://t.me/giantcedar"
+          ],
+          "service": [
+            {
+              "@type": "Service",
+              "name": "Aerial Photography",
+              "description": "Professional aerial photography services capturing breathtaking perspectives from above"
+            },
+            {
+              "@type": "Service",
+              "name": "Mission Planning",
+              "description": "Expert mission planning and coordination for aerial photography projects"
+            }
+          ]
+        })}
+      </script>
+
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={heroImage} alt="Aerial mountain photography" className="w-full h-full object-cover grayscale" />
+          <img 
+            src={heroImage} 
+            alt="Professional aerial photography of Idaho mountain wilderness and backcountry terrain" 
+            className="w-full h-full object-cover grayscale" 
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-background" />
         </div>
 
         <div className="relative z-10 text-center px-4 animate-fade-in">
           <div className="flex items-center justify-center mb-6"></div>
+          <h1 className="sr-only">Giant Cedar - Professional Aerial Photography and Mission Planning Services</h1>
           <GlistenText
             text="GIANT CEDAR"
             className="text-[6rem] md:text-[10rem] font-bold leading-none mb-6 tracking-tighter"
@@ -83,7 +134,7 @@ const Index = () => {
       </section>
 
       {/* Gallery Section */}
-      <section className="container mx-auto px-4 py-24">
+      <section className="container mx-auto px-4 py-24" aria-label="Aerial Photography Portfolio">
         <h2
           className="text-6xl md:text-8xl font-bold mb-16 text-center tracking-tighter"
           style={{
@@ -100,7 +151,11 @@ const Index = () => {
               animationDelay: "0.1s",
             }}
           >
-            <img src={aerial1} alt="Aerial photography 1" className="w-full h-[600px] object-cover grayscale" />
+            <img 
+              src={aerial1} 
+              alt="Aerial view of Idaho mountain peaks and alpine terrain captured by Giant Cedar aerial photography" 
+              className="w-full h-[600px] object-cover grayscale" 
+            />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
@@ -110,7 +165,11 @@ const Index = () => {
               animationDelay: "0.2s",
             }}
           >
-            <img src={aerial2} alt="Aerial photography 2" className="w-full h-[600px] object-cover grayscale" />
+            <img 
+              src={aerial2} 
+              alt="Professional aerial photography showcasing Western US landscapes and mountain ranges" 
+              className="w-full h-[600px] object-cover grayscale" 
+            />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
@@ -120,7 +179,11 @@ const Index = () => {
               animationDelay: "0.3s",
             }}
           >
-            <img src={aerial3} alt="Aerial photography 3" className="w-full h-[600px] object-cover grayscale" />
+            <img 
+              src={aerial3} 
+              alt="Aerial drone photography of wilderness terrain and backcountry landscapes in Idaho" 
+              className="w-full h-[600px] object-cover grayscale" 
+            />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
@@ -134,7 +197,8 @@ const Index = () => {
               playsInline
               controls
               className="w-full h-[600px] object-cover grayscale"
-              aria-label="Aerial photography video"
+              aria-label="Aerial video showcasing professional drone cinematography over mountain wilderness"
+              title="Giant Cedar aerial cinematography - Mountain wilderness drone footage"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
             <button
@@ -194,7 +258,8 @@ const Index = () => {
               playsInline
               controls
               className="w-full h-[600px] object-cover grayscale"
-              aria-label="Aerial photography video 2"
+              aria-label="Professional aerial cinematography showcasing Idaho backcountry and Pacific Northwest landscapes"
+              title="Giant Cedar aerial photography - Western US terrain and wilderness footage"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
           </div>
@@ -207,7 +272,7 @@ const Index = () => {
           >
             <img
               src={aerial6}
-              alt="Aerial photography from cockpit"
+              alt="Cockpit view of professional aerial photography mission over Western United States terrain"
               className="w-full h-[600px] object-cover grayscale"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
@@ -219,7 +284,11 @@ const Index = () => {
               animationDelay: "0.7s",
             }}
           >
-            <img src={aerial7} alt="Red rock formations" className="w-full h-[600px] object-cover grayscale" />
+            <img 
+              src={aerial7} 
+              alt="Aerial photography of red rock canyon formations and desert landscapes in Western US" 
+              className="w-full h-[600px] object-cover grayscale" 
+            />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
           </div>
 
@@ -235,7 +304,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-16">
+      <footer className="border-t border-border py-16" role="contentinfo">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center gap-6 max-w-2xl mx-auto">
             {/* Logo and Name */}
@@ -248,7 +317,7 @@ const Index = () => {
               >
                 GIANT
               </p>
-              <img src={logoImage} alt="Giant Cedar" className="h-14 w-14 object-contain" />
+              <img src={logoImage} alt="Giant Cedar logo - Professional aerial photography services" className="h-14 w-14 object-contain" />
               <p
                 className="text-2xl font-bold tracking-wider"
                 style={{
