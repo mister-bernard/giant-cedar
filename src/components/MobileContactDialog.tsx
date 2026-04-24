@@ -22,15 +22,12 @@ export const MobileContactDialog = ({ open, onOpenChange }: MobileContactDialogP
     const telegramMessage = `📬 New Contact Form Submission - Giant Cedar\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
     
     try {
-      const response = await fetch(`https://api.telegram.org/bot${import.meta.env.VITE_TG_BOT_TOKEN}/sendMessage`, {
+      const response = await fetch('https://api.mrb.sh/api/giant-cedar/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          chat_id: '39172309',
-          text: telegramMessage,
-        }),
+        body: JSON.stringify({ text: telegramMessage }),
       });
 
       if (!response.ok) {

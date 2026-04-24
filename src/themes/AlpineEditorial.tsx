@@ -269,22 +269,58 @@ export function AlpineEditorial({ track, variant }: Props) {
 
           {/* ── CAPABILITIES ───────────────────────────────────────────── */}
           <section id="capabilities" aria-labelledby="caps-heading" style={{ background: C.headerBg, color: C.headerText, padding: "80px 64px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", maxWidth: "1200px", margin: "0 auto" }}>
-              <div>
+            {/* Single shared grid — rows guaranteed aligned across both columns */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 80px", maxWidth: "1200px", margin: "0 auto" }}>
+              {/* Header row — left column */}
+              <div style={{ paddingBottom: "40px", borderBottom: `1px solid rgba(232,224,208,0.2)` }}>
                 <div style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(232,224,208,0.4)", fontFamily: SANS, marginBottom: "16px" }}>What We Do</div>
-                <h2 id="caps-heading" style={{ fontSize: "32px", fontWeight: 400, fontFamily: SERIF, lineHeight: 1.15, marginBottom: "40px" }}>{COPY.capsSection.capabilitiesHeading}</h2>
-                {COPY.capabilities.map((cap, i) => (
-                  <div key={cap} style={{ display: "flex", alignItems: "center", gap: "16px", padding: "16px 0", borderBottom: `1px solid rgba(232,224,208,0.12)` }}>
-                    <span style={{ color: C.greenLight, fontSize: "18px", fontFamily: SERIF }}>0{i+1}</span>
-                    <span style={{ fontSize: "16px", fontWeight: 300, fontFamily: SANS }}>{cap}</span>
-                  </div>
-                ))}
+                <h2 id="caps-heading" style={{ fontSize: "32px", fontWeight: 400, fontFamily: SERIF, lineHeight: 1.15, margin: 0 }}>{COPY.capsSection.capabilitiesHeading}</h2>
               </div>
-              <div>
+              {/* Header row — right column */}
+              <div style={{ paddingBottom: "40px", borderBottom: `1px solid rgba(232,224,208,0.2)` }}>
                 <div style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(232,224,208,0.4)", fontFamily: SANS, marginBottom: "16px" }}>Operating Area</div>
-                <h2 style={{ fontSize: "32px", fontWeight: 400, fontFamily: SERIF, lineHeight: 1.15, marginBottom: "40px" }}>{COPY.capsSection.whereWeGoHeading}</h2>
-                {COPY.whereWeGo.map((area, i) => (
-                  <div key={i} style={{ padding: "16px 0", borderBottom: `1px solid rgba(232,224,208,0.12)`, fontSize: "16px", fontWeight: 300, fontFamily: SANS }}>{area}</div>
+                <h2 style={{ fontSize: "32px", fontWeight: 400, fontFamily: SERIF, lineHeight: 1.15, margin: 0 }}>{COPY.capsSection.whereWeGoHeading}</h2>
+              </div>
+              {/* Data rows — zipped so each pair shares a grid row */}
+              {Array.from({ length: Math.max(COPY.capabilities.length, COPY.whereWeGo.length) }, (_, i) => [
+                <div key={`cap-${i}`} style={{ display: "flex", alignItems: "center", gap: "16px", padding: "16px 0", borderBottom: `1px solid rgba(232,224,208,0.12)` }}>
+                  <span style={{ color: C.greenLight, fontSize: "18px", fontFamily: SERIF, minWidth: "24px" }}>0{i+1}</span>
+                  <span style={{ fontSize: "16px", fontWeight: 300, fontFamily: SANS }}>{COPY.capabilities[i] ?? ""}</span>
+                </div>,
+                <div key={`area-${i}`} style={{ padding: "16px 0", borderBottom: `1px solid rgba(232,224,208,0.12)`, fontSize: "16px", fontWeight: 300, fontFamily: SANS, display: "flex", alignItems: "center" }}>
+                  {COPY.whereWeGo[i] ?? ""}
+                </div>,
+              ])}
+            </div>
+          </section>
+
+          {/* ── ACCESS METHODS ─────────────────────────────────────────── */}
+          <section aria-labelledby="access-heading" style={{ background: C.warm, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "80px 64px" }}>
+            <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+              {/* Header */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", marginBottom: "60px" }}>
+                <div>
+                  <div style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: C.muted, fontFamily: SANS, marginBottom: "16px" }}>Access & Logistics</div>
+                  <h2 id="access-heading" style={{ fontSize: "40px", fontWeight: 400, fontFamily: SERIF, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0 }}>
+                    {COPY.access.heading}
+                  </h2>
+                </div>
+                <div style={{ display: "flex", alignItems: "flex-end", paddingBottom: "4px" }}>
+                  <p style={{ fontSize: "16px", lineHeight: 1.75, color: C.muted, fontFamily: SANS, fontWeight: 300, margin: 0 }}>
+                    {COPY.access.subheading}
+                  </p>
+                </div>
+              </div>
+              {/* Methods grid */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1px", background: C.border }}>
+                {COPY.access.methods.map((method, i) => (
+                  <div key={i} style={{ background: C.cream, padding: "36px 40px" }}>
+                    <div style={{ fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: C.accent, fontFamily: SANS, marginBottom: "10px" }}>
+                      0{i + 1}
+                    </div>
+                    <h3 style={{ fontSize: "19px", fontWeight: 400, fontFamily: SERIF, margin: "0 0 12px" }}>{method.label}</h3>
+                    <p style={{ fontSize: "14px", lineHeight: 1.75, color: C.muted, fontFamily: SANS, margin: 0 }}>{method.desc}</p>
+                  </div>
                 ))}
               </div>
             </div>

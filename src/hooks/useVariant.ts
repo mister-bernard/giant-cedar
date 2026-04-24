@@ -9,14 +9,22 @@
  */
 
 import { useEffect, useRef, useCallback } from "react";
+import { initGA, gtagEvent, gtagPageView } from "@/analytics";
 
 export type Variant = "minimalist" | "alpine";
 
 const STORAGE_KEY   = "gc_variant";
 const SESSION_KEY   = "gc_session";
 const TRACKER_URL   = "https://mrb.sh/gc-ab/track";
+const GA_ID         = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
 
 function assignVariant(): Variant {
+  // URL param override: ?v=alpine or ?v=minimalist — forces variant and persists it
+  const urlParam = new URLSearchParams(window.location.search).get("v") as Variant | null;
+  if (urlParam === "minimalist" || urlParam === "alpine") {
+    localStorage.setItem(STORAGE_KEY, urlParam);
+    return urlParam;
+  }
   const stored = localStorage.getItem(STORAGE_KEY) as Variant | null;
   if (stored === "minimalist" || stored === "alpine") return stored;
   const v: Variant = Math.random() < 0.5 ? "minimalist" : "alpine";
@@ -35,6 +43,8 @@ function getSessionId(): string {
 
 function sendEvent(event: string, variant: Variant, meta?: Record<string, unknown>) {
   if (typeof navigator === "undefined") return;
+
+  // ── A/B tracker (internal) ─────────────────────────────────────────────────
   const payload = JSON.stringify({
     event,
     variant,
@@ -52,6 +62,9 @@ function sendEvent(event: string, variant: Variant, meta?: Record<string, unknow
   } catch {
     // Silent — never break UX for analytics
   }
+
+  // ── GA4 (if configured) ────────────────────────────────────────────────────
+  gtagEvent(event, { gc_variant: variant, ...meta });
 }
 
 export function useVariant() {
@@ -60,8 +73,10 @@ export function useVariant() {
   const scrollFired = useRef({ s50: false, s80: false });
   const timeFired   = useRef({ t60: false, t180: false });
 
-  // Fire page_view immediately
+  // Init GA4 with variant as user property (idempotent — safe to call again here)
   useEffect(() => {
+    if (GA_ID) initGA(GA_ID, v);
+    gtagPageView(v);
     sendEvent("page_view", v);
   }, [v]);
 

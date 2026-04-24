@@ -33,22 +33,46 @@ export const COPY = {
     "Drone Cinematography",
     "Fixed-Wing Aerial Photography",
     "Mission Planning",
-    "Remote Location Operations",
+    "Remote Location Access",
   ],
 
   whereWeGo: [
     "Western United States",
     "International on request",
     "Permits & logistics — fully handled",
-    "Remote & backcountry terrain",
+    "Anywhere the shot requires",
   ],
 
+  access: {
+    heading: "We carry the kit in.",
+    subheading:
+      "Getting the aerial shot isn't just about the drone — it's about getting the operator and the equipment to the right position. The terrain sets the method. We've used all of them.",
+    methods: [
+      {
+        label: "Alpine & Trad Climbing",
+        desc:  "Camera systems moved to ridgelines, summit approaches, and technical faces. Positions earned by the team, not delivered by a road.",
+      },
+      {
+        label: "Helicopter Insert",
+        desc:  "Rotary access for high-altitude or time-critical vantage points. We handle the weight manifest, landing zone coordination, and aircraft logistics.",
+      },
+      {
+        label: "River Expedition",
+        desc:  "Slot canyons, river gorges, and remote drainages reached by multi-day raft. Full gear waterproofing and river logistics included.",
+      },
+      {
+        label: "Extended Overland",
+        desc:  "Backcountry approaches by foot, vehicle, pack animal, or any combination the terrain requires. If there is a way in, we find it.",
+      },
+    ],
+  },
+
   logistics: {
-    heading: "We handle\nevery detail.",
+    heading: "Permits, airspace,\npaperwork — handled.",
     paragraphs: [
       "Flying in Oman, China, or anywhere else doesn't start with a drone. It starts with permits. Airspace authorization, local aviation authority approvals, restricted zone waivers, operator certifications — the paperwork that most production teams never want to touch.",
       "We take care of all of it. Every country we fly in, every restricted area we operate near, every flight plan that needs regulatory sign-off. You brief us on the shot. We figure out what's required to legally and safely take it.",
-      "That includes ground transport coordination, local liaison, customs documentation for equipment, and contingency planning for everything that can go wrong in a remote location at altitude. The mission is planned before we ever power on a drone.",
+      "That includes customs documentation for equipment, local liaison, contingency planning, and coordinating whatever combination of transport modes the location demands. The mission is fully planned before we ever power on a drone.",
     ],
   },
 
