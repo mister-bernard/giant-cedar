@@ -160,21 +160,56 @@ export function MinimalistArchitect({ track, variant }: Props) {
           </section>
 
           {/* CAPABILITIES */}
-          <section id="capabilities" aria-labelledby="caps-heading" style={{ padding: "80px 48px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, borderTop: "1px solid #EBEBEB", borderBottom: "1px solid #EBEBEB" }}>
-            <div style={{ paddingRight: "48px" }}>
-              <h2 id="caps-heading" style={{ fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", color: "#777", paddingBottom: "28px", borderBottom: "2px solid #0A0A0A", marginBottom: 0 }}>
-                {COPY.capsSection.capabilitiesHeading}
-              </h2>
-              {COPY.capabilities.map(cap => (
-                <div key={cap} style={{ padding: "18px 0", borderBottom: "1px solid #EBEBEB", fontSize: "15px", fontWeight: 300 }}>{cap}</div>
-              ))}
+          <section id="capabilities" aria-labelledby="caps-heading" style={{ padding: "80px 48px", borderTop: "1px solid #EBEBEB", borderBottom: "1px solid #EBEBEB" }}>
+            {/* Single shared grid — rows are automatically aligned across both columns */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+              {/* Header row */}
+              <div style={{ paddingRight: "48px", paddingBottom: "28px", borderBottom: "2px solid #0A0A0A" }}>
+                <h2 id="caps-heading" style={{ fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", color: "#777", margin: 0 }}>
+                  {COPY.capsSection.capabilitiesHeading}
+                </h2>
+              </div>
+              <div style={{ paddingLeft: "48px", paddingBottom: "28px", borderLeft: "1px solid #EBEBEB", borderBottom: "2px solid #0A0A0A" }}>
+                <h2 aria-label="Operating area" style={{ fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", color: "#777", margin: 0 }}>
+                  {COPY.capsSection.whereWeGoHeading}
+                </h2>
+              </div>
+              {/* Data rows — zipped so each pair shares a grid row, guaranteeing alignment */}
+              {Array.from({ length: Math.max(COPY.capabilities.length, COPY.whereWeGo.length) }, (_, i) => [
+                <div key={`cap-${i}`} style={{ paddingRight: "48px", padding: "18px 48px 18px 0", borderBottom: "1px solid #EBEBEB", fontSize: "15px", fontWeight: 300 }}>
+                  {COPY.capabilities[i] ?? ""}
+                </div>,
+                <div key={`area-${i}`} style={{ paddingLeft: "48px", borderLeft: "1px solid #EBEBEB", borderBottom: "1px solid #EBEBEB", fontSize: "15px", fontWeight: 300, display: "flex", alignItems: "center" }}>
+                  {COPY.whereWeGo[i] ?? ""}
+                </div>,
+              ])}
             </div>
-            <div style={{ paddingLeft: "48px", borderLeft: "1px solid #EBEBEB" }}>
-              <h2 aria-label="Operating area" style={{ fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", color: "#777", paddingBottom: "28px", borderBottom: "2px solid #0A0A0A", marginBottom: 0 }}>
-                {COPY.capsSection.whereWeGoHeading}
-              </h2>
-              {COPY.whereWeGo.map((area, i) => (
-                <div key={i} style={{ padding: "18px 0", borderBottom: "1px solid #EBEBEB", fontSize: "15px", fontWeight: 300 }}>{area}</div>
+          </section>
+
+          {/* ACCESS METHODS */}
+          <section aria-labelledby="access-heading" style={{ borderTop: "1px solid #EBEBEB", borderBottom: "1px solid #EBEBEB" }}>
+            {/* Header row */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: "1px solid #EBEBEB" }}>
+              <div style={{ padding: "56px 48px 48px", borderRight: "1px solid #EBEBEB" }}>
+                <div style={{ fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#777", marginBottom: "16px" }}>Access & Logistics</div>
+                <h2 id="access-heading" style={{ fontSize: "44px", fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.03em", margin: 0 }}>
+                  {COPY.access.heading}
+                </h2>
+              </div>
+              <div style={{ padding: "56px 48px 48px", display: "flex", alignItems: "flex-end" }}>
+                <p style={{ fontSize: "15px", lineHeight: 1.75, color: "#777", fontWeight: 300, margin: 0 }}>
+                  {COPY.access.subheading}
+                </p>
+              </div>
+            </div>
+            {/* Methods — 4-up grid */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", borderLeft: "1px solid #EBEBEB" }}>
+              {COPY.access.methods.map((method, i) => (
+                <div key={i} style={{ borderRight: "1px solid #EBEBEB", borderBottom: "1px solid #EBEBEB", padding: "36px 48px" }}>
+                  <div style={{ fontSize: "11px", letterSpacing: "0.12em", color: "#BBBBBB", marginBottom: "12px", fontWeight: 400 }}>0{i + 1}</div>
+                  <h3 style={{ fontSize: "16px", fontWeight: 500, margin: "0 0 10px", letterSpacing: "-0.01em" }}>{method.label}</h3>
+                  <p style={{ fontSize: "14px", lineHeight: 1.7, color: "#777", fontWeight: 300, margin: 0 }}>{method.desc}</p>
+                </div>
               ))}
             </div>
           </section>

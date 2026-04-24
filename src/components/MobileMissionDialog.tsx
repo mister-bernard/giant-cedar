@@ -37,15 +37,12 @@ ${formData.description}
 ${formData.address}`;
 
     try {
-      const response = await fetch(`https://api.telegram.org/bot${import.meta.env.VITE_TG_BOT_TOKEN}/sendMessage`, {
+      const response = await fetch('https://api.mrb.sh/api/giant-cedar/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          chat_id: '39172309',
-          text: message,
-        }),
+        body: JSON.stringify({ text: message }),
       });
 
       if (!response.ok) {
