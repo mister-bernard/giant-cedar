@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 .env*.local
 .github/
+
+# Vite build artifacts (should never be committed at repo root — they belong in dist/)
+/assets/
