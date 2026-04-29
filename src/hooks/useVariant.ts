@@ -19,6 +19,10 @@ const TRACKER_URL   = "https://mrb.sh/gc-ab/track";
 const GA_ID         = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
 
 function assignVariant(): Variant {
+  // Build-time force (for dedicated A/B deployments)
+  const buildForce = import.meta.env.VITE_FORCE_VARIANT as string | undefined;
+  if (buildForce === "minimalist" || buildForce === "alpine") return buildForce;
+
   // URL param override: ?v=alpine or ?v=minimalist — forces variant and persists it
   const urlParam = new URLSearchParams(window.location.search).get("v") as Variant | null;
   if (urlParam === "minimalist" || urlParam === "alpine") {
